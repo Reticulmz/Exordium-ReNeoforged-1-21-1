@@ -2,6 +2,7 @@ package dev.tr7zw.exordium;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 
+import dev.tr7zw.exordium.event.GuiLayerEventHandler;
 import dev.tr7zw.exordium.util.ReloadTracker;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.neoforged.api.distmarker.Dist;
@@ -24,6 +25,8 @@ public class ExordiumMod extends ExordiumModBase {
 
         container.registerExtensionPoint(IConfigScreenFactory.class,
                 (mc, screen) -> createConfigScreen(screen));
+
+        new GuiLayerEventHandler().register();
     }
 
     private void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {

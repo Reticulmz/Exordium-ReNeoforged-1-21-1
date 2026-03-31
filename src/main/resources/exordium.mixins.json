@@ -10,16 +10,11 @@
     ],
     "client": [
         "ChatComponentMixin",
-        "CrosshairMixin",
         "GlStateManagerMixin",
-        "GuiDebugOverlayMixin",
-        "GuiExperienceMixin",
         "GuiHealthMixin",
-        "GuiHotbarMixin",
         "GuiMixin",
         "MinecraftMixin",
         "PlayerTabOverlayMixin",
-        "ScoreboardMixin",
         "VignetteMixin",
         "support/PaperDollMixin"
     ],
