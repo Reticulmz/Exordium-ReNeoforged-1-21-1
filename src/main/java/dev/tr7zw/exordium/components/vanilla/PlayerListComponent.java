@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import dev.tr7zw.exordium.access.TablistAccess;
 import dev.tr7zw.exordium.components.BufferComponent;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.PlayerTabOverlay;
@@ -19,18 +18,14 @@ import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.scores.criteria.ObjectiveCriteria;
-//#if MC >= 12004
 import net.minecraft.world.scores.PlayerScoreEntry;
-//#else
-//$$ import net.minecraft.world.scores.Score;
-//#endif
 
 public class PlayerListComponent
         implements BufferComponent<dev.tr7zw.exordium.components.vanilla.PlayerListComponent.PlayerListContext> {
 
     private static final Minecraft minecraft = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "player_list");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "player_list");
 
     private List<Integer> playerInfoHashes = new ArrayList<>();
     private int headerHash = 0;
@@ -67,13 +62,8 @@ public class PlayerListComponent
             return false;
 
         int scoreboardHashCode = 1;
-        //#if MC >= 12004
         for (PlayerScoreEntry score : scoreboard.listPlayerScores(objective))
             scoreboardHashCode = 31 * scoreboardHashCode + (score == null ? 0 : score.value());
-        //#else
-        //$$for (Score score : scoreboard.getPlayerScores(objective))
-        //$$    scoreboardHashCode = 31 * scoreboardHashCode + (score == null ? 0 : score.getScore());
-        //#endif
 
         int newObjectiveHashCode = objective == null ? 0 : objective.getName().hashCode();
         if (scoreboardHashCode == scoreboardHash && newObjectiveHashCode == objectiveHash)
@@ -105,11 +95,7 @@ public class PlayerListComponent
                         suffix.getStyle(), suffix.getString());
             }
             playerHash += playerInfo.getGameMode() == GameType.SPECTATOR ? 31 : 0;
-            //#if MC >= 12002
             playerHash += playerInfo.getSkin().texture().hashCode();
-            //#else
-            //$$ playerHash += playerInfo.getSkinLocation().hashCode();
-            //#endif
             playerHash += playerInfo.getLatency() * 63;
 
             if (lastTrackedObjective != null
@@ -120,11 +106,7 @@ public class PlayerListComponent
                     PlayerTabOverlay.HealthState healthState = context.tablist().getHealthStates().computeIfAbsent(
                             playerInfo.getProfile().getId(),
                             (_uuid) -> new PlayerTabOverlay.HealthState(lastTrackedObjective.getScoreboard()
-                                    //#if MC >= 12004
                                     .getOrCreatePlayerScore(player, lastTrackedObjective).get()));
-                    //#else
-                    //$$.getOrCreatePlayerScore(player.getName().toString(), lastTrackedObjective).getScore()));
-                    //#endif
                     playerHash += healthState.isBlinking(context.tablist.getGui().getGuiTicks()) ? 63 : 127;
                 }
             }

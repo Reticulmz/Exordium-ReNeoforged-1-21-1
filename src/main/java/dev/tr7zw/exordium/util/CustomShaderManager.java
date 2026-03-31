@@ -3,15 +3,15 @@ package dev.tr7zw.exordium.util;
 import com.mojang.blaze3d.shaders.Uniform;
 
 import lombok.Getter;
-import net.minecraft.client.renderer.CompiledShaderProgram;
+import net.minecraft.client.renderer.ShaderInstance;
 
 public class CustomShaderManager {
 
     @Getter
-    private CompiledShaderProgram positionMultiTexShader;
+    private ShaderInstance positionMultiTexShader;
     private Uniform positionMultiTexShaderTextureCountUniform;
 
-    public void registerShaderInstance(CompiledShaderProgram shaderInstance) {
+    public void registerShaderInstance(ShaderInstance shaderInstance) {
         this.positionMultiTexShader = shaderInstance;
         this.positionMultiTexShaderTextureCountUniform = shaderInstance.getUniform("texcount");
     }

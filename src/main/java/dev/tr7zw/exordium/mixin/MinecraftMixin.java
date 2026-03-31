@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
  * While rendering the hud/screen, other mods might also use custom render
  * targets. This Mixin ensures that they switch back to the buffer from this mod
  * instead of the vanilla screen.
- * 
+ *
  * @author tr7zw
  *
  */
@@ -29,10 +29,5 @@ public class MinecraftMixin {
             ci.cancel();
         }
     }
-
-    //    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;allowsMultiplayer()Z", shift = Shift.BEFORE), method = "Lnet/minecraft/client/Minecraft;<init>(Lnet/minecraft/client/main/GameConfig;)V")
-    //    private void init(GameConfig config, CallbackInfo info) {
-    //       System.loadLibrary("renderdoc");
-    //    }
 
 }

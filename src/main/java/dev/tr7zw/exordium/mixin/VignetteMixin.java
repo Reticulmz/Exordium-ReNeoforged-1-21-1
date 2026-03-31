@@ -1,9 +1,5 @@
 package dev.tr7zw.exordium.mixin;
 
-//#if MC >= 12102
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.ARGB;
-//#endif
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,7 +12,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.tr7zw.exordium.ExordiumModBase;
 import dev.tr7zw.exordium.components.BufferInstance;
 import dev.tr7zw.exordium.components.vanilla.VignetteComponent;
-import dev.tr7zw.util.NMSHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,18 +27,13 @@ public class VignetteMixin {
     @Final
     private Minecraft minecraft;
 
-    private static ResourceLocation FAST_VIGNETTE_LOCATION = NMSHelper.getResourceLocation("exordium",
+    private static ResourceLocation FAST_VIGNETTE_LOCATION = ResourceLocation.fromNamespaceAndPath("exordium",
             "textures/misc/fast_vignette.png");
-    private static ResourceLocation FAST_VIGNETTE_DARK_LOCATION = NMSHelper.getResourceLocation("exordium",
+    private static ResourceLocation FAST_VIGNETTE_DARK_LOCATION = ResourceLocation.fromNamespaceAndPath("exordium",
             "textures/misc/fast_vignette_dark.png");
 
-    //#if MC >= 12005
     @WrapOperation(method = "renderCameraOverlays", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderVignette(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/entity/Entity;)V"), })
-    //#else
-    //$$ @WrapOperation(method = "render", at = {
-    //$$        @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;renderVignette(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/entity/Entity;)V"), })
-    //#endif
     private void renderVignetteWrapper(Gui gui, GuiGraphics guiGraphics, Entity entity,
             final Operation<Void> operation) {
 
@@ -84,33 +74,18 @@ public class VignetteMixin {
             // red tint
             f = Mth.clamp(f, 0.0F, 1.0F);
             g = Math.max(g, f);
-            //#if MC >= 12102
-            color = ARGB.colorFromFloat(f, 0f, 0f, g);
-            //#else
-            //$$guiGraphics.setColor(f, 0.0F, 0.0F, g);
-            //#endif
+            guiGraphics.setColor(f, 0.0F, 0.0F, g);
             texture = FAST_VIGNETTE_LOCATION;
         } else {
-            //#if MC >= 12102
-            color = ARGB.colorFromFloat(0f, 0f, 0f, g);
-            //#else
-            //$$guiGraphics.setColor(1.0F, 1.0F, 1.0F, g);
-            //#endif
+            guiGraphics.setColor(1.0F, 1.0F, 1.0F, g);
         }
 
-        //#if MC >= 12102
-        guiGraphics.blit(RenderType::guiTextured, texture, 0, 0, 0.0F, 0.0F, guiGraphics.guiWidth(),
-                guiGraphics.guiHeight(), guiGraphics.guiWidth(), guiGraphics.guiHeight(), color);
-        //#else
-        //$$guiGraphics.blit(texture, 0, 0, -90, 0.0F, 0.0F, guiGraphics.guiWidth(), guiGraphics.guiHeight(),
-        //$$                guiGraphics.guiWidth(), guiGraphics.guiHeight());
-        //#endif
+        guiGraphics.blit(texture, 0, 0, -90, 0.0F, 0.0F, guiGraphics.guiWidth(), guiGraphics.guiHeight(),
+                        guiGraphics.guiWidth(), guiGraphics.guiHeight());
 
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        //#if MC < 12102
-        //$$guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
-        //#endif
+        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
     }
 

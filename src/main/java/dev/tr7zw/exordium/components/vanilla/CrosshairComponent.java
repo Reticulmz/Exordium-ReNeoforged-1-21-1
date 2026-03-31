@@ -2,7 +2,6 @@ package dev.tr7zw.exordium.components.vanilla;
 
 import dev.tr7zw.exordium.components.BufferComponent;
 import dev.tr7zw.exordium.versionless.config.Config.ComponentSettings;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.CameraType;
@@ -16,7 +15,7 @@ public class CrosshairComponent implements BufferComponent<DebugScreenOverlay> {
 
     private static final Minecraft minecraft = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "crosshair");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "crosshair");
 
     private boolean wasRenderingF3 = false;
     private float lastPitch = 0;
@@ -28,11 +27,7 @@ public class CrosshairComponent implements BufferComponent<DebugScreenOverlay> {
     @Override
     public void captureState(DebugScreenOverlay debugOverlay) {
         lastHidden = minecraft.options.getCameraType() != CameraType.FIRST_PERSON || minecraft.player.isSpectator();
-        //#if MC >= 12002
         wasRenderingF3 = debugOverlay.showDebugScreen();
-        //#else
-        //$$ wasRenderingF3 = minecraft.options.renderDebug;
-        //#endif
         lastPitch = minecraft.getCameraEntity().getXRot();
         lastYaw = minecraft.getCameraEntity().getYRot();
         lastCooldown = minecraft.player.getAttackStrengthScale(0.0F);
@@ -47,15 +42,9 @@ public class CrosshairComponent implements BufferComponent<DebugScreenOverlay> {
 
     @Override
     public boolean hasChanged(DebugScreenOverlay debugOverlay) {
-        //#if MC >= 12002
         if (wasRenderingF3 != debugOverlay.showDebugScreen()) {
             return true;
         }
-        //#else
-        //$$ if (wasRenderingF3 != minecraft.options.renderDebug) {
-        //$$return true;
-        //$$}
-        //#endif
         if (lastHidden != ((minecraft.options.getCameraType() != CameraType.FIRST_PERSON)
                 || minecraft.player.isSpectator())) {
             return true;

@@ -3,7 +3,7 @@ package dev.tr7zw.exordium.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.tr7zw.config.CustomConfigScreen;
+import dev.tr7zw.exordium.config.CustomConfigScreen;
 import dev.tr7zw.exordium.ExordiumModBase;
 import dev.tr7zw.exordium.versionless.config.Config;
 import net.minecraft.client.OptionInstance;
@@ -35,7 +35,7 @@ public class ExordiumConfigScreen extends CustomConfigScreen {
         addSettings(options, config.xaerosMinimapSettings, "xaerosmimimap", true, true);
         addSettings(options, config.paperdollSettings, "paperdoll", true, true);
 
-        getOptions().addSmall(options.toArray(new OptionInstance[0]));
+        addSettings(options);
 
     }
 

@@ -18,7 +18,7 @@ import dev.tr7zw.exordium.util.rendersystem.ShaderColorHolder;
 /**
  * Iris causes issues when trying to switch render buffers during world
  * rendering. This class delays the draws to after the world rendering
- * 
+ *
  * @author tr7zw
  *
  */
@@ -41,11 +41,7 @@ public class DelayedRenderCallManager {
         RenderSystem.enableBlend();
         Objects.requireNonNull(shaderManager);
 
-        //#if MC >= 12102
-        RenderSystem.setShader(shaderManager.getPositionMultiTexShader());
-        //#else
-        //$$RenderSystem.setShader(shaderManager::getPositionMultiTexShader);
-        //#endif
+        RenderSystem.setShader(shaderManager::getPositionMultiTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         Model model = BufferedComponent.getModel();

@@ -82,8 +82,6 @@ esac
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-COMPOSE=$APP_HOME/gradle/gradle-compose.jar
-
 # Determine the Java command to use to start the JVM.
 if [ -n "$JAVA_HOME" ] ; then
     if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
@@ -172,10 +170,6 @@ if [ "$cygwin" = "true" -o "$msys" = "true" ] ; then
         9) set -- "$args0" "$args1" "$args2" "$args3" "$args4" "$args5" "$args6" "$args7" "$args8" ;;
     esac
 fi
-
-
-
-"$JAVACMD" -jar $COMPOSE
 
 # Escape application args
 save () {

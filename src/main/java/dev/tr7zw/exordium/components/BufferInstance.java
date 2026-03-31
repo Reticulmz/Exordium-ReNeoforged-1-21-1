@@ -46,7 +46,7 @@ public final class BufferInstance<T> {
     /**
      * Tries to render the buffer. Returns false if the buffer was not rendered and
      * the normal render logic should be used.
-     * 
+     *
      * @param context
      * @return
      */
@@ -94,7 +94,7 @@ public final class BufferInstance<T> {
     /**
      * This method should be called after the render logic, no matter if the buffer
      * or normal render logic was used.
-     * 
+     *
      * @param context
      */
     public void postRender(T context, GuiGraphics guiGraphics) {

@@ -24,11 +24,7 @@ public class BufferedComponent implements IBufferedComponent {
     @Getter
     private static Model model = null;
     private final Supplier<Config.ComponentSettings> settings;
-    //#if MC >= 12102
-    private final RenderTarget guiTarget = new TextureTarget(100, 100, true);
-    //#else
-    //$$private final RenderTarget guiTarget = new TextureTarget(100, 100, true, false);
-    //#endif
+    private final RenderTarget guiTarget = new TextureTarget(100, 100, true, false);
     private final ScreenTracker screenTracker = new ScreenTracker(guiTarget);
     private final MultiStateHolder stateHolder = new MultiStateHolder(new BlendStateHolder(), new DepthStateHolder());
     private boolean forceBlending = false;
@@ -66,12 +62,8 @@ public class BufferedComponent implements IBufferedComponent {
         }
 
         guiTarget.setClearColor(0, 0, 0, 0);
-        //#if MC >= 12102
-        guiTarget.clear();
-        //#else
-        //$$guiTarget.clear(false);
-        //$$guiTarget.bindWrite(false);
-        //#endif
+        guiTarget.clear(false);
+        guiTarget.bindWrite(false);
 
         ExordiumModBase.correctBlendMode();
         if (forceBlending || settings.get().isForceBlend()) {

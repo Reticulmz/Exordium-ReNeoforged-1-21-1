@@ -2,7 +2,6 @@ package dev.tr7zw.exordium.components.vanilla;
 
 import dev.tr7zw.exordium.access.ChatAccess;
 import dev.tr7zw.exordium.components.BufferComponent;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.GuiMessage;
 import net.minecraft.resources.ResourceLocation;
@@ -10,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 public class ChatComponent implements BufferComponent<ChatAccess> {
 
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "chat_panel");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "chat_panel");
 
     private int lastScrollbarPos = 0;
     private int messageCount = 0;

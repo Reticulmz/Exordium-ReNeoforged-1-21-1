@@ -1,7 +1,6 @@
 package dev.tr7zw.exordium.components.vanilla;
 
 import dev.tr7zw.exordium.components.BufferComponent;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.AttackIndicatorStatus;
 import net.minecraft.client.Minecraft;
@@ -9,15 +8,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-//#if MC >= 12104
-import net.minecraft.core.component.DataComponents;
-//#endif
 
 public class HotbarComponent implements BufferComponent<Void> {
 
     private static final Minecraft minecraft = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "hotbar");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "hotbar");
 
     private float lastAttackState = 0;
     private final Object[] hotbarModels = new Object[10];
@@ -82,11 +78,7 @@ public class HotbarComponent implements BufferComponent<Void> {
             if (item.isEnchanted()) {
                 this.hasEnchantedItem = true;
             }
-            //#if MC >= 12102
-            if (player.getCooldowns().isOnCooldown(item)) {
-                //#else
-                //$$if (player.getCooldowns().isOnCooldown(item.getItem())) {
-                //#endif
+                if (player.getCooldowns().isOnCooldown(item.getItem())) {
                 this.cooldownActive = true;
             }
         } else {
@@ -123,17 +115,7 @@ public class HotbarComponent implements BufferComponent<Void> {
     }
 
     private Object getModel(ItemStack itemStack, Player player) {
-        //#if MC >= 12104
-        //        return Math.random(); // FIXME The new ItemModel class/ItemStackRenderState logic is incompatible with all of this
-        ResourceLocation resourceLocation = (ResourceLocation) itemStack.get(DataComponents.ITEM_MODEL);
-        if (resourceLocation != null) {
-            return minecraft.getModelManager().getItemModel(resourceLocation);
-        } else {
-            return null;
-        }
-        //#else
-        //$$ return minecraft.getItemRenderer().getModel(itemStack, player.level(), player, 0);
-        //#endif
+         return minecraft.getItemRenderer().getModel(itemStack, player.level(), player, 0);
     }
 
 }

@@ -4,14 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.minecraft.client.renderer.CompiledShaderProgram;
+import net.minecraft.client.renderer.ShaderInstance;
 
 @ToString
 public class ShaderHolder implements StateHolder {
 
     @Getter
     private boolean fetched = false;
-    private CompiledShaderProgram shader = null;
+    private ShaderInstance shader = null;
 
     public void fetch() {
         fetched = true;
@@ -21,11 +21,7 @@ public class ShaderHolder implements StateHolder {
     public void apply() {
         if (!fetched)
             return;
-        //#if MC <= 12101
-        //$$ RenderSystem.setShader(() -> shader);
-        //#else
-        RenderSystem.setShader(shader);
-        //#endif
+         RenderSystem.setShader(() -> shader);
     }
 
 }

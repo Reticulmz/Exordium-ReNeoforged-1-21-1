@@ -16,13 +16,8 @@ import net.minecraft.client.gui.components.DebugScreenOverlay;
 @Mixin(Gui.class)
 public class GuiDebugOverlayMixin {
 
-    //#if MC >= 12005
-    @WrapOperation(method = "method_55807", at = {
+    @WrapOperation(method = "lambda$new$6", at = {
             @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;render(Lnet/minecraft/client/gui/GuiGraphics;)V"), })
-    //#else
-    //$$@WrapOperation(method = "render", at = {
-    //$$        @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;render(Lnet/minecraft/client/gui/GuiGraphics;)V"), })
-    //#endif
     private void renderDebugOverlayWrapper(DebugScreenOverlay overlay, GuiGraphics guiGraphics,
             final Operation<Void> operation) {
         BufferInstance<Void> buffer = ExordiumModBase.instance.getBufferManager()

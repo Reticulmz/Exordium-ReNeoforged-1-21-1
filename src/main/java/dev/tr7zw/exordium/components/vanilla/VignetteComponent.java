@@ -1,7 +1,6 @@
 package dev.tr7zw.exordium.components.vanilla;
 
 import dev.tr7zw.exordium.components.BufferComponent;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +10,7 @@ public class VignetteComponent implements BufferComponent<Float> {
 
     private static final Minecraft MINECRAFT = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "vignette");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "vignette");
 
     private float exordium_state = 0f;
     private float exordium_lastVignetteBrightness = 1.0F;

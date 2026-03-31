@@ -5,7 +5,6 @@ import java.util.Objects;
 import dev.tr7zw.exordium.components.BufferComponent;
 import dev.tr7zw.exordium.util.ScoreboardHelper;
 import dev.tr7zw.exordium.util.ScoreboardHelper.ScoreboardState;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -14,7 +13,7 @@ public class ScoreboardComponent implements BufferComponent<Void> {
 
     private static final Minecraft minecraft = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "scoreboard");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "scoreboard");
 
     private String scoreboardState = null;
 

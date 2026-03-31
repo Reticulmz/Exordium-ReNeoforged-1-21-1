@@ -1,0 +1,33 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "tr7zw Protective License"
+issueTrackerURL = "https://github.com/tr7zw/Exordium/issues"
+
+[[mods]]
+modId = "exordium"
+version = "${mod_version}"
+displayName = "Exordium"
+description = "Renders the UI at a lower framerate to give the gameplay more legroom."
+logoFile = "assets/exordium/icon.png"
+authors = "tr7zw, katietheqt"
+displayURL = "https://modrinth.com/mod/exordium"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"
+
+[[mixins]]
+config = "exordium.mixins.json"
+
+[[dependencies.exordium]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "CLIENT"
+
+[[dependencies.exordium]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.21.2)"
+ordering = "NONE"
+side = "CLIENT"

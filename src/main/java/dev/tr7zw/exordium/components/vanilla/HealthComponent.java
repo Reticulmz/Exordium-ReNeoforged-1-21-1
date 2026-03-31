@@ -3,7 +3,6 @@ package dev.tr7zw.exordium.components.vanilla;
 import dev.tr7zw.exordium.access.HealthAccess;
 import dev.tr7zw.exordium.components.BufferComponent;
 import dev.tr7zw.exordium.mixin.FoodDataAccessor;
-import dev.tr7zw.util.NMSHelper;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +14,7 @@ public class HealthComponent implements BufferComponent<HealthAccess> {
 
     private static final Minecraft minecraft = Minecraft.getInstance();
     @Getter
-    private static final ResourceLocation id = NMSHelper.getResourceLocation("minecraft", "health");
+    private static final ResourceLocation id = ResourceLocation.fromNamespaceAndPath("minecraft", "health");
 
     private boolean healthBlinking;
     private int lastRenderedHealth;

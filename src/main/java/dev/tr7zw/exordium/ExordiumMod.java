@@ -1,70 +1,51 @@
 package dev.tr7zw.exordium;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 
-import dev.tr7zw.util.NMSHelper;
 import dev.tr7zw.exordium.util.ReloadTracker;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.client.renderer.ShaderInstance;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 
-public class ExordiumMod extends ExordiumModBase implements ClientModInitializer {
+@Mod(value = "exordium", dist = Dist.CLIENT)
+public class ExordiumMod extends ExordiumModBase {
 
-    @Override
-    public void onInitializeClient() {
+    public ExordiumMod(IEventBus modEventBus, ModContainer container) {
+        LOGGER.info("Loading Exordium!");
         super.onInitialize();
 
-        //#if MC >= 12102
-        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES)
-                .registerReloadListener(new SimpleResourceReloadListener<>() {
-                    @Override
-                    public ResourceLocation getFabricId() {
-                        return NMSHelper.getResourceLocation("exordium", "reload_listener");
-                    }
+        modEventBus.addListener(this::onRegisterReloadListeners);
+        modEventBus.addListener(this::onRegisterShaders);
 
-                    @Override
-                    public CompletableFuture<Object> load(ResourceManager manager, Executor executor) {
-                        return CompletableFuture.completedFuture(null);
-                    }
+        container.registerExtensionPoint(IConfigScreenFactory.class,
+                (mc, screen) -> createConfigScreen(screen));
+    }
 
-                    @Override
-                    public CompletableFuture<Void> apply(Object data, ResourceManager manager, Executor executor) {
-                        ReloadTracker.reload();
-                        return CompletableFuture.completedFuture(null);
-                    }
-                });
-        //#else
-        //$$ResourceManagerHelper.get(PackType.CLIENT_RESOURCES)
-        //$$                .registerReloadListener(new SimpleResourceReloadListener<>() {
-        //$$                    @Override
-        //$$                    public ResourceLocation getFabricId() {
-        //$$                        return NMSHelper.getResourceLocation("exordium", "reload_listener");
-        //$$                    }
-        //$$
-        //$$                    @Override
-        //$$                    public CompletableFuture<Object> load(ResourceManager manager, ProfilerFiller profiler,
-        //$$                            Executor executor) {
-        //$$                        return CompletableFuture.completedFuture(null);
-        //$$                    }
-        //$$
-        //$$                    @Override
-        //$$                    public CompletableFuture<Void> apply(Object data, ResourceManager manager, ProfilerFiller profiler,
-        //$$                            Executor executor) {
-        //$$                        ReloadTracker.reload();
-        //$$                        return CompletableFuture.completedFuture(null);
-        //$$                    }
-        //$$                });
-        //#endif
+    private void onRegisterReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener((pPreparationBarrier, pResourceManager, pPreparationsProfiler,
+                pReloadProfiler, pBackgroundExecutor, pGameExecutor) -> {
+            return pPreparationBarrier.wait(null).thenRunAsync(ReloadTracker::reload, pGameExecutor);
+        });
+    }
+
+    private void onRegisterShaders(RegisterShadersEvent event) {
+        try {
+            ShaderInstance shader = new ShaderInstance(event.getResourceProvider(),
+                    "position_multi_tex", DefaultVertexFormat.POSITION_TEX);
+            event.registerShader(shader,
+                    s -> ExordiumModBase.instance.getCustomShaderManager().registerShaderInstance(s));
+        } catch (Exception e) {
+            throw new RuntimeException("Unable to load Exordium Shader", e);
+        }
     }
 
     @Override
     public void initModloader() {
-
     }
 
 }
