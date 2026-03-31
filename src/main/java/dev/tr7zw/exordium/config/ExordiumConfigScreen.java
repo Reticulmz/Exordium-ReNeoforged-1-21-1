@@ -3,7 +3,8 @@ package dev.tr7zw.exordium.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.tr7zw.exordium.config.CustomConfigScreen;
+import com.google.gson.Gson;
+
 import dev.tr7zw.exordium.ExordiumModBase;
 import dev.tr7zw.exordium.versionless.config.Config;
 import net.minecraft.client.OptionInstance;
@@ -61,10 +62,16 @@ public class ExordiumConfigScreen extends CustomConfigScreen {
     }
 
     @Override
+    protected boolean isDefault() {
+        Gson gson = new Gson();
+        return gson.toJson(ExordiumModBase.instance.config).equals(gson.toJson(new Config()));
+    }
+
+    @Override
     public void reset() {
         ExordiumModBase.instance.config = new Config();
         ExordiumModBase.instance.writeConfig();
-        this.rebuildWidgets();
+        this.minecraft.setScreen(new ExordiumConfigScreen(this.lastScreen));
     }
 
 }

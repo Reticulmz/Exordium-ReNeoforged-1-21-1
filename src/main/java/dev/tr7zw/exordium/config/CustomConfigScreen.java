@@ -26,13 +26,23 @@ public abstract class CustomConfigScreen extends OptionsSubScreen {
 
     @Override
     protected void addFooter() {
-        this.layout.addToFooter(Button.builder(Component.translatable("controls.reset"), (button) -> {
+        Button resetButton = Button.builder(Component.translatable("controls.reset"), (button) -> {
             reset();
-        }).width(98).build());
+        }).width(98).build();
+        resetButton.active = !isDefault();
+        this.layout.addToFooter(resetButton);
         this.layout.addToFooter(Button.builder(CommonComponents.GUI_DONE, (button) -> {
             save();
             this.minecraft.setScreen(this.lastScreen);
         }).width(98).build());
+    }
+
+    /**
+     * Returns true if current settings match defaults.
+     * Subclasses should override this to provide the actual comparison.
+     */
+    protected boolean isDefault() {
+        return false;
     }
 
     @Override
