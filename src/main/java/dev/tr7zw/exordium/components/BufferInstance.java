@@ -12,6 +12,7 @@ import dev.tr7zw.exordium.util.PacingTracker;
 import dev.tr7zw.exordium.util.ReloadListener;
 import dev.tr7zw.exordium.versionless.config.Config;
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,7 +41,7 @@ public final class BufferInstance<T> {
     }
 
     public boolean enabled() {
-        return component.enabled(settings.get());
+        return Minecraft.getInstance().screen == null && component.enabled(settings.get());
     }
 
     /**
