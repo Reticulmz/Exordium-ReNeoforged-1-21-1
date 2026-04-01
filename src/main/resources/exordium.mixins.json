@@ -12,7 +12,6 @@
         "ChatComponentMixin",
         "GlStateManagerMixin",
         "GuiHealthMixin",
-        "GuiMixin",
         "MinecraftMixin",
         "PlayerTabOverlayMixin",
         "VignetteMixin",

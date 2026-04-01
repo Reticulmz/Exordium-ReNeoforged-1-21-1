@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.options.OptionsSubScreen;
 import net.minecraft.network.chat.CommonComponents;
@@ -26,15 +27,17 @@ public abstract class CustomConfigScreen extends OptionsSubScreen {
 
     @Override
     protected void addFooter() {
+        LinearLayout row = LinearLayout.horizontal().spacing(8);
         Button resetButton = Button.builder(Component.translatable("controls.reset"), (button) -> {
             reset();
         }).width(98).build();
         resetButton.active = !isDefault();
-        this.layout.addToFooter(resetButton);
-        this.layout.addToFooter(Button.builder(CommonComponents.GUI_DONE, (button) -> {
+        row.addChild(resetButton);
+        row.addChild(Button.builder(CommonComponents.GUI_DONE, (button) -> {
             save();
             this.minecraft.setScreen(this.lastScreen);
         }).width(98).build());
+        this.layout.addToFooter(row);
     }
 
     /**
