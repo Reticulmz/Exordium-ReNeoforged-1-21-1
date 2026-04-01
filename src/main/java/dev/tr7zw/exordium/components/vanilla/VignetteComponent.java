@@ -46,7 +46,7 @@ public class VignetteComponent implements BufferComponent<Float> {
         } else {
             f = 0.0F;
         }
-        return exordium_state == f;
+        return exordium_state != f;
     }
 
 }

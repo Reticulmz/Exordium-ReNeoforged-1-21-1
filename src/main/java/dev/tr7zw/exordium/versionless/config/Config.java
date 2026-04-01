@@ -1,5 +1,8 @@
 package dev.tr7zw.exordium.versionless.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +10,7 @@ public class Config {
 
     public int configVersion = 2;
     public int pollRate = 60;
+    public List<String> hotbarIncompatibleMods = new ArrayList<>(List.of("immersiveui"));
     public ComponentSettings chatSettings = new ComponentSettings(true, 20);
     public ComponentSettings debugScreenSettings = new ComponentSettings(true, 10);
     public ComponentSettings hotbarSettings = new ComponentSettings(true, 20);

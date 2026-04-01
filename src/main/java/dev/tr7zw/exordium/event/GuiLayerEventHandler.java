@@ -21,12 +21,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.scores.DisplaySlot;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.Scoreboard;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,12 +41,28 @@ import java.util.Map;
  */
 public class GuiLayerEventHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger("Exordium");
     private final Map<ResourceLocation, LayerState> layerStates = new HashMap<>();
+    private boolean hotbarDisabledByIncompatibility = false;
 
     public void register() {
         NeoForge.EVENT_BUS.addListener(this::onLayerPre);
         NeoForge.EVENT_BUS.addListener(this::onLayerPost);
         NeoForge.EVENT_BUS.addListener(this::onRenderGuiPost);
+
+        checkIncompatibleMods();
+    }
+
+    private void checkIncompatibleMods() {
+        List<String> incompatibleMods = ExordiumModBase.instance.config.hotbarIncompatibleMods;
+        if (incompatibleMods == null) return;
+        for (String modId : incompatibleMods) {
+            if (ModList.get().isLoaded(modId)) {
+                LOGGER.info("Detected incompatible mod '{}' — disabling hotbar buffering", modId);
+                hotbarDisabledByIncompatibility = true;
+                return;
+            }
+        }
     }
 
     private void onLayerPre(RenderGuiLayerEvent.Pre event) {
@@ -76,7 +96,7 @@ public class GuiLayerEventHandler {
     }
 
     private LayerHandler getHandler(ResourceLocation name) {
-        if (VanillaGuiLayers.HOTBAR.equals(name)) return new SimpleHandler(HotbarComponent.getId(), Void.class);
+        if (VanillaGuiLayers.HOTBAR.equals(name) && !hotbarDisabledByIncompatibility) return new SimpleHandler(HotbarComponent.getId(), Void.class);
         if (VanillaGuiLayers.EXPERIENCE_BAR.equals(name)) return new SimpleHandler(ExperienceComponent.getId(), Void.class);
         if (VanillaGuiLayers.DEBUG_OVERLAY.equals(name)) return new SimpleHandler(DebugOverlayComponent.getId(), Void.class);
         if (VanillaGuiLayers.SCOREBOARD_SIDEBAR.equals(name)) return new SimpleHandler(ScoreboardComponent.getId(), Void.class);
