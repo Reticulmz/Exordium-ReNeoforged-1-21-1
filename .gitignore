@@ -32,3 +32,13 @@ bin/
 
 run/
 logs/
+
+# claude/ai
+
+.claude/
+.serena/
+CLAUDE.md
+
+# misc
+
+gradle/wrapper/gradle-wrapper.jar
