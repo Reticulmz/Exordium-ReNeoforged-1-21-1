@@ -25,7 +25,6 @@ public class ExordiumConfigScreen extends CustomConfigScreen {
 
         addSettings(options, config.chatSettings, "chat", false, false);
         addSettings(options, config.debugScreenSettings, "debug", false, true);
-        addSettings(options, config.healthSettings, "health", false, false);
         addSettings(options, config.hotbarSettings, "hotbar", false, false);
         addSettings(options, config.experienceSettings, "experience", false, false);
         addSettings(options, config.scoreboardSettings, "scoreboard", false, false);
@@ -33,7 +32,6 @@ public class ExordiumConfigScreen extends CustomConfigScreen {
         addSettings(options, config.vignetteSettings, "vignette", true, false);
         addSettings(options, config.crosshairSettings, "crosshair", true, false);
         addSettings(options, config.bossbarSettings, "bossbar", true, false);
-        addSettings(options, config.xaerosMinimapSettings, "xaerosmimimap", true, true);
         addSettings(options, config.paperdollSettings, "paperdoll", true, true);
 
         addSettings(options);

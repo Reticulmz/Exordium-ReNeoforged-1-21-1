@@ -5,13 +5,11 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "BossHealthOverlayMixin",
-        "FoodDataAccessor",
         "LerpingBossEventMixin"
     ],
     "client": [
         "ChatComponentMixin",
         "GlStateManagerMixin",
-        "GuiHealthMixin",
         "MinecraftMixin",
         "PlayerTabOverlayMixin",
         "VignetteMixin",

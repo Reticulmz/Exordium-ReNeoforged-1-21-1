@@ -15,13 +15,11 @@ public class Config {
     public ComponentSettings debugScreenSettings = new ComponentSettings(true, 10);
     public ComponentSettings hotbarSettings = new ComponentSettings(true, 20);
     public ComponentSettings experienceSettings = new ComponentSettings(true, 5);
-    public ComponentSettings healthSettings = new ComponentSettings(true, 20);
     public ComponentSettings scoreboardSettings = new ComponentSettings(true, 5);
     public ComponentSettings tablistSettings = new ComponentSettings(true, 20);
     public ComponentSettings vignetteSettings = new ComponentSettings(false, 5);
     public ComponentSettings crosshairSettings = new ComponentSettings(false, 20);
     public ComponentSettings bossbarSettings = new ComponentSettings(true, 5);
-    public ComponentSettings xaerosMinimapSettings = new ComponentSettings(true, 30, true);
     public ComponentSettings paperdollSettings = new ComponentSettings(true, 30);
 
     @Getter

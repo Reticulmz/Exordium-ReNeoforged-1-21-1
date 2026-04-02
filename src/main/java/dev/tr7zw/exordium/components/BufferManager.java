@@ -6,24 +6,17 @@ import java.util.function.Supplier;
 
 import dev.tr7zw.exordium.ExordiumModBase;
 import dev.tr7zw.exordium.components.support.PaperDollComponent;
-import dev.tr7zw.exordium.components.support.XaerosMinimapComponent;
-import dev.tr7zw.exordium.components.vanilla.AirComponent;
-import dev.tr7zw.exordium.components.vanilla.ArmorComponent;
 import dev.tr7zw.exordium.components.vanilla.BossHealthBarComponent;
 import dev.tr7zw.exordium.components.vanilla.ChatComponent;
 import dev.tr7zw.exordium.components.vanilla.CrosshairComponent;
 import dev.tr7zw.exordium.components.vanilla.DebugOverlayComponent;
 import dev.tr7zw.exordium.components.vanilla.ExperienceComponent;
-import dev.tr7zw.exordium.components.vanilla.FoodComponent;
-import dev.tr7zw.exordium.components.vanilla.HealthComponent;
 import dev.tr7zw.exordium.components.vanilla.HotbarComponent;
 import dev.tr7zw.exordium.components.vanilla.PlayerListComponent;
 import dev.tr7zw.exordium.components.vanilla.ScoreboardComponent;
-import dev.tr7zw.exordium.components.vanilla.VehicleHealthComponent;
 import dev.tr7zw.exordium.components.vanilla.VignetteComponent;
 import dev.tr7zw.exordium.versionless.config.Config;
 import lombok.NoArgsConstructor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 
 @NoArgsConstructor
@@ -33,7 +26,6 @@ public class BufferManager {
 
     public void initialize() {
         ExordiumModBase inst = ExordiumModBase.instance;
-        Minecraft minecraft = Minecraft.getInstance();
         registerBuffer(DebugOverlayComponent.getId(), new DebugOverlayComponent(),
                 () -> inst.config.debugScreenSettings);
         registerBuffer(CrosshairComponent.getId(), new CrosshairComponent(), () -> inst.config.crosshairSettings);
@@ -42,19 +34,9 @@ public class BufferManager {
         registerBuffer(ScoreboardComponent.getId(), new ScoreboardComponent(), () -> inst.config.scoreboardSettings);
         registerBuffer(HotbarComponent.getId(), new HotbarComponent(), () -> inst.config.hotbarSettings);
         registerBuffer(ChatComponent.getId(), new ChatComponent(), () -> inst.config.chatSettings);
-        registerBuffer(XaerosMinimapComponent.getId(), new XaerosMinimapComponent(),
-                () -> inst.config.xaerosMinimapSettings);
         registerBuffer(PlayerListComponent.getId(), new PlayerListComponent(), () -> inst.config.tablistSettings);
         registerBuffer(BossHealthBarComponent.getId(), new BossHealthBarComponent(), () -> inst.config.bossbarSettings);
-        // Health-related layer buffers disabled: NeoForge splits renderPlayerHealth into
-        // 5 individual layers, each too small for FBO buffering to be worthwhile.
-        // registerBuffer(HealthComponent.getId(), new HealthComponent(), () -> inst.config.healthSettings);
-        // registerBuffer(ArmorComponent.getId(), new ArmorComponent(), () -> inst.config.healthSettings);
-        // registerBuffer(FoodComponent.getId(), new FoodComponent(), () -> inst.config.healthSettings);
-        // registerBuffer(AirComponent.getId(), new AirComponent(), () -> inst.config.healthSettings);
-        // registerBuffer(VehicleHealthComponent.getId(), new VehicleHealthComponent(), () -> inst.config.healthSettings);
         registerBuffer(PaperDollComponent.getId(), new PaperDollComponent(), () -> inst.config.paperdollSettings);
-
     }
 
     @SuppressWarnings("unchecked")
